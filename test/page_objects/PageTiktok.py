@@ -26,6 +26,7 @@ class PageTiktok(BaseCase): #inherit BaseCase
         self.current_time = datetime.now().strftime("%m-%d-%H-%M")
         self.video_list = []
         self.browsingList = browsingList
+        self.currentInfo = {}
 
     def info_videos(self, videoList):
         '''
@@ -132,10 +133,11 @@ class PageTiktok(BaseCase): #inherit BaseCase
                 self.chromebrowser.get(url)
                 #html_source = self.chromebrowser.page_source
                 try: 
-                    currentInfo = self.info_video(self.chromebrowser)
+                    self.currentInfo = self.info_video(self.chromebrowser)
+                    print(self.currentInfo)
                 except:
                     pass
-                results.append(currentInfo)
+                results.append(self.currentInfo)
 
             self.write_to_csv(results, "all_videos.csv")
         except Exception as e:
