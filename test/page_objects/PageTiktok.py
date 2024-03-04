@@ -133,8 +133,9 @@ class PageTiktok(BaseCase): #inherit BaseCase
                 self.chromebrowser.get(url)
                 #html_source = self.chromebrowser.page_source
                 try: 
-                    self.currentInfo = self.info_video(self.chromebrowser)
-                    print(self.currentInfo)
+                    currentVideo = self.chromebrowser.find_element(By.XPATH, '//*[@class="css-14bp9b0-DivItemContainer etvrc4k0"]')
+                    self.currentInfo = self.info_video(currentVideo)
+                    #print(self.currentInfo)
                 except:
                     pass
                 results.append(self.currentInfo)
