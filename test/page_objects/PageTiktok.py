@@ -133,8 +133,11 @@ class PageTiktok(BaseCase): #inherit BaseCase
                 self.chromebrowser.get(url)
                 #html_source = self.chromebrowser.page_source
                 try: 
-                    currentVideo = self.chromebrowser.find_element(By.XPATH, '//*[@class="css-14bp9b0-DivItemContainer etvrc4k0"]')
-                    self.currentInfo = self.info_video(currentVideo)
+                    self.video_list = self.chromebrowser.find_elements(By.XPATH, '//*[@class="css-14bp9b0-DivItemContainer etvrc4k0"]')
+                    if self.checkVideoList():
+                        self.currentInfo = self.info_video(self.video_list[0])
+                    else:
+                        pass
                     #print(self.currentInfo)
                 except:
                     pass
@@ -143,6 +146,12 @@ class PageTiktok(BaseCase): #inherit BaseCase
             self.write_to_csv(results, "all_videos.csv")
         except Exception as e:
             print("An error occurred:", str(e))
+
+    def checkVideoList(self):
+        if len(self.video_list) != 0:
+            return True
+        else:
+            return False
 
 
     def iterate_through_videos(self):
@@ -180,9 +189,3 @@ class PageTiktok(BaseCase): #inherit BaseCase
                     'saves': video_info['saves'],
                 })
   
-    
-
-
-
-
-        
