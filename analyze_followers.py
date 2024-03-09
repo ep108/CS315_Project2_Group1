@@ -47,7 +47,7 @@ def findalloverlap(fileName, newsFileName):
     return totaloverlap
 
 def getnumfollowed(fileName):
-    data = createdata(ii)
+    data = createdata(fileName)
     followers = getfollowers(data)
     numfollow = len(followers)
     return numfollow
@@ -56,6 +56,7 @@ def createDataFrame(fileList, newsFile):
     filelist = fileList
     followlist = []
     overlaplist = []
+    notnewslist = []
     
     for ii in filelist:
         numfollow = getnumfollowed(ii)
@@ -63,11 +64,16 @@ def createDataFrame(fileList, newsFile):
         
         numoverlap = findalloverlap(ii, newsFile)
         overlaplist.append(numoverlap)
+
+    for jj in range(len(filelist)):
+        numFollowNotNews = followlist[jj] - overlaplist[jj]
+        notnewslist.append(numFollowNotNews)
         
     overlapFrame = pd.DataFrame(
         {'Account' : filelist,
          'Total Followers':followlist,
-         'News Accounts':overlaplist})
+         'News Accounts':overlaplist,
+         'Not News Accounts':notnewslist})
     return(overlapFrame)
 
 fileList = ['C:/Users/Lucia/Desktop/Capstone/user_data2.json', "C:/Users/Lucia/Downloads/user_data.json"] #INSERT YOUR OWN FILE NAMES TO RUN
