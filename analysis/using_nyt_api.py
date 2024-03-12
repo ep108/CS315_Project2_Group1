@@ -53,10 +53,11 @@ def create_flat_dct(article):
     dct['keywords'] = concat_keywords(article['keywords'])
     return dct
 
-def create_df(articles,date,write_csv=True):
+def create_df(articles,date,filepath,write_csv=True):
     '''
-    Takes a list of articles, gets the relevant data for each article, 
-    saves the data as a df, writes it to a csv file, and returns the df.
+    Takes a list of articles, a date, and a filepath to write df to.
+    Gets the relevant data for each article, saves the data as a df, 
+    writes it to a csv file, and returns the df.
     Takes optional parameter write_csv. By default, writes csv of articles
     from given date to a csv file.
     '''
@@ -72,10 +73,10 @@ def create_df(articles,date,write_csv=True):
     if articles == None:
         print(f'There were no articles passed in for {date}.')
     elif write_csv:
-        if filename in os.listdir(f'{os.getcwd()}/nyt_data'):
+        if filename in os.listdir(filepath):
             print(f'File {filename} already exists')
         else:
-            df.to_csv(f'{os.getcwd()}/nyt_data/{filename}')
+            df.to_csv(f'{filepath}/{filename}')
             print(f'Saving new file: {filename}')
     else:
         print(f'\'write_csv\' set to False. Not saving: {filename}')
