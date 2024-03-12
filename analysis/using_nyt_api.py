@@ -68,12 +68,15 @@ def create_df(articles,date,write_csv=True):
     df = pd.DataFrame(flat_articles)
 
     # Save as csv
-    filename = f'nyt_data/{date}-articles.csv'
+    filename = f'{date}-articles.csv'
     if articles == None:
         print(f'There were no articles passed in for {date}.')
     elif write_csv:
-        print(f'Saving new file: {filename}')
-        df.to_csv(filename)
+        if filename in os.listdir(f'{os.getcwd()}/nyt_data'):
+            print(f'File {filename} already exists')
+        else:
+            df.to_csv(f'{os.getcwd()}/nyt_data/{filename}')
+            print(f'Saving new file: {filename}')
     else:
         print(f'\'write_csv\' set to False. Not saving: {filename}')
     
