@@ -68,7 +68,7 @@ def create_df(articles,date,write_csv=True):
     df = pd.DataFrame(flat_articles)
 
     # Save as csv
-    filename = f'{date}-articles.csv'
+    filename = f'nyt_data/{date}-articles.csv'
     if articles == None:
         print(f'There were no articles passed in for {date}.')
     elif write_csv:
