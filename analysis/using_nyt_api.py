@@ -9,11 +9,14 @@ def get_articles_by_date(date,key):
     that were published on that date as a dictionary.'''
     try:
         dt = datetime.datetime.strptime(date,'%Y-%m-%d')
-    except ValueError:
-        print(ValueError)
-    
-    url = f'https://api.nytimes.com/svc/archive/v1/{dt.year}/{dt.month}.json?api-key={key}'
-    data = requests.get(url)
+        url = f'https://api.nytimes.com/svc/archive/v1/{dt.year}/{dt.month}.json?api-key={key}'
+        data = requests.get(url)
+    except ValueError as ve:
+        print(ve)
+        year = date[:4]
+        month = date[5:7]
+        url = f'https://api.nytimes.com/svc/archive/v1/{year}/{month}.json?api-key={key}'
+        data = requests.get(url)
 
     if data.status_code == 200: 
         print("Successful get request.")
@@ -53,6 +56,7 @@ def create_flat_dct(article):
     dct['keywords'] = concat_keywords(article['keywords'])
     return dct
 
+
 def create_df(articles,date,filepath,write_csv=True):
     '''
     Takes a list of articles, a date, and a filepath to write df to.
@@ -61,25 +65,24 @@ def create_df(articles,date,filepath,write_csv=True):
     Takes optional parameter write_csv. By default, writes csv of articles
     from given date to a csv file.
     '''
-    # Create list of flattened dictionaries
-    flat_articles = []
-    for article in articles:
-        flat_articles.append(create_flat_dct(article))
-
-    df = pd.DataFrame(flat_articles)
-
-    # Save as csv
     filename = f'{date}-articles.csv'
-    if articles == None:
+    
+    if filename in os.listdir(filepath): # Check if file exists
+        print(f'File {filename} already exists.')
+        df = pd.read_csv(f'{filepath}/{filename}')
+    elif articles==None: # Check whether articles were passed in
         print(f'There were no articles passed in for {date}.')
-    elif write_csv:
-        if filename in os.listdir(filepath):
-            print(f'File {filename} already exists')
-        else:
+    else: # Create list of flattened dictionaries
+        flat_articles = []
+        for article in articles:
+            flat_articles.append(create_flat_dct(article))
+        df = pd.DataFrame(flat_articles)
+        
+        if write_csv: # Save file as csv
             df.to_csv(f'{filepath}/{filename}')
             print(f'Saving new file: {filename}')
-    else:
-        print(f'\'write_csv\' set to False. Not saving: {filename}')
+        else:
+            print(f'\'write_csv\' set to False. Not saving: {filename}')
     
     return df
 
