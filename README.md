@@ -18,13 +18,18 @@ Files:
   * Sec1Gr1_12345.json
   * Sec1Gr1_50405.json
 
-**Folder:** pyktok-results
-Purpose: Hold the csv files of TikTok video metadata collected using the pyktok library. Multiple people collected data for the video browsing history from three accounts. Because of this, there are at least two files of pyktok data for each account. The number at the end of the filename is the data collection attempt number. The pyktok data that we used for our analysis portion of the project have "full" at the end of the filename.
+**Folder:** pyktok-results  
+Purpose: Hold the csv files of TikTok video metadata collected using the pyktok library. Multiple people collected data for the video browsing history from three accounts. Because of this, there are at least two files of pyktok data for each account. The number at the end of the filename is the data collection attempt number. The pyktok data that we used for our analysis portion of the project have "full" at the end of the filename. One file includes "secondHalf" in the filename, which indicates that the file was broken up and collected on a separate machine.
 
 Files:
-  * Sec1Gr1_10824.json
-  * Sec1Gr1_12345.json
-  * Sec1Gr1_50405.json
+  * results_10824_1.csv
+  * results_10824_2.csv
+  * results_10824_full.csv
+  * results_12345_1.csv
+  * results_12345_full.csv
+  * results_50405_1_secondHalf.csv
+  * results_50405_2.csv
+  * results_50405_full.csv
 
 **Folder:** analysis  
 Purpose: Holds the python code and data files resulting from our analysis.
